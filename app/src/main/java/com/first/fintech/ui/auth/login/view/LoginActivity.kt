@@ -17,6 +17,7 @@ import com.first.fintech.ui.services.view.ServicesActivity
 import com.first.fintech.util.NetworkUtils
 import com.first.fintech.util.SessionManager
 import android.text.InputType
+import androidx.core.view.WindowInsetsControllerCompat
 import com.first.fintech.R
 
 
@@ -35,6 +36,10 @@ class LoginActivity : AppCompatActivity() {
 
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        window.statusBarColor = getColor(R.color.white)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
+
 
         var isPasswordVisible = false
 

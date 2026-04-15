@@ -2,8 +2,10 @@ package com.first.fintech.ui.subscriptions.view
 
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +19,7 @@ import com.first.fintech.ui.auth.register.view.RegisterActivity
 import com.first.fintech.ui.subscriptions.view.adapter.SubscriptionsAdapter
 import com.first.fintech.ui.subscriptions.viewModel.SubscriptionsViewModel
 import com.first.fintech.ui.subscriptions.viewModel.SubscriptionsViewModelFactory
+import com.first.fintech.util.DrawerHelper
 
 import com.first.fintech.util.NetworkUtils
 import com.first.fintech.util.SessionManager
@@ -32,12 +35,30 @@ class SubscriptionsActivity : AppCompatActivity() {
         binding = ActivitySubscriptionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        DrawerHelper.setup(
+            activity         = this,
+            drawerLayout     = binding.drawerLayout,
+            btnMenu          = binding.btnMenu,
+            tvNavUserName    = binding.tvNavUserName,
+            tvNavUserEmail   = binding.tvNavUserEmail,
+            navServices      = binding.navServices,
+            navSubscriptions = binding.navSubscriptions,
+            navLogout        = binding.navLogout
+        )
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
+
         setupRecyclerView()
         setupViewModel()
-
-        binding.btnBack.setOnClickListener {
-            onBackPressedDispatcher.onBackPressed()
-        }
     }
 
     private fun setupRecyclerView() {
@@ -66,7 +87,11 @@ class SubscriptionsActivity : AppCompatActivity() {
                     }
                 }
                 result.onFailure { error ->
-                    Snackbar.make(binding.root, error.message ?: "Failed to load", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(
+                        binding.root,
+                        error.message ?: "Failed to load subscriptions",
+                        Snackbar.LENGTH_LONG
+                    ).show()
                 }
             }
         }

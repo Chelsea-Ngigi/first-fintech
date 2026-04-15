@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.first.fintech.ui.auth.login.view.LoginActivity
 
 
@@ -16,9 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        window.navigationBarColor = android.graphics.Color.WHITE
-        WindowCompat.getInsetsController(window, window.decorView)
-            .isAppearanceLightNavigationBars = false
+        window.statusBarColor = getColor(R.color.white)
+        WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, LoginActivity::class.java))
