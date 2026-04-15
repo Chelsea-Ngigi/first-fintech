@@ -229,10 +229,10 @@ Authorization: None
 Request body:
 ```json
 {
-  "name": "John Doe",
-  "email": "john@example.com",
-  "phone": "0712345678",
-  "password": "password123"
+  "fullName": "Jane Doe",
+  "email": "jane@example.com",
+  "msisdn": "254123456789",
+  "credentials": "janepassword123"
 }
 ```
 
@@ -246,8 +246,8 @@ Authorization: None
 Request body:
 ```json
 {
-  "email": "john@example.com",
-  "password": "password123"
+  "email": "jane@example.com",
+  "password": "janepassword123"
 }
 ```
 
@@ -270,8 +270,9 @@ Authorization: Bearer {token}
 Request body:
 ```json
 {
-  "serviceId": "service_id_here",
-  "subscriberEmail": "john@example.com"
+  "subscriberEmail": "jane@example.com",
+  "serviceName": "StarTimes",
+  "amountPaid": 17000
 }
 ```
 
@@ -345,12 +346,12 @@ The app handles errors at multiple layers:
 
 Before any API call is made, inputs are validated:
 
-| Field | Rule |
-|---|---|
-| Name | Must not be blank |
-| Email | Must match email pattern |
-| Phone | Must be at least 10 digits |
-| Password | Must be at least 6 characters |
+| Field | Rule                          |
+|---|-------------------------------|
+| Name | Must not be blank             |
+| Email | Must match email pattern      |
+| Phone | Must be at least 10 digits    |
+| Password | Must be at least 8 characters |
 
 Validation errors are posted to a `validationError` LiveData and shown via `Snackbar`.
 
